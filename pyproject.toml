@@ -9,6 +9,9 @@ packages = [{include = "config"}]
 [tool.poetry.dependencies]
 python = "^3.11"
 django = "^4.2.3"
+djangorestframework = "^3.14.0"
+markdown = "^3.4.3"
+django-filter = "^23.2"
 
 
 [build-system]
