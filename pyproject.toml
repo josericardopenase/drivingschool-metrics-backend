@@ -4,7 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["josericardopenase <josericardopenase@gmail.com>"]
 readme = "README.md"
-packages = [{include = "drivingschool_metrics"}]
+packages = [{include = "config"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
