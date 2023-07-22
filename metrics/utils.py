@@ -60,22 +60,9 @@ def parser_dgt_data(ruta_csv):
     # Leer el archivo CSV
     df = pd.read_csv(ruta_csv, encoding='latin-1', delimiter=';')
     
-    # Filtrar por DESC_PROVINCIA 'Palmas (Las)'
-    df = df[df['DESC_PROVINCIA'] == 'Palmas (Las)']
-
-    # Eliminar los centros de examen 'Arrecife' y 'Puerto del Rosario'
-    df = df[~df['CENTRO_EXAMEN'].isin(['Arrecife', 'Puerto del Rosario'])]
-
-    # Calcular la columna 'NUM_APTOS_3_o_mas_conv' y 'NUM_PRESENTADOS'
     df['NUM_APTOS_3_o_mas_conv'] = df['NUM_APTOS_3o4conv'] + df['NUM_APTOS_5_o_mas_conv']
     df['NUM_PRESENTADOS'] = df['NUM_APTOS'] + df['NUM_NO_APTOS']
 
-    # Eliminar columnas innecesarias
-    df.drop(columns=['CENTRO_EXAMEN', 'DESC_PROVINCIA', 'CODIGO_AUTOESCUELA', 'CODIGO_SECCION', 
-                     'NUM_APTOS_3o4conv', 'NUM_APTOS_5_o_mas_conv', 'NUM_NO_APTOS'], inplace=True)
-
-    # Reorganizar el DataFrame con el orden deseado de columnas
-    df = df[['NOMBRE_AUTOESCUELA', 'NOMBRE_PERMISO', 'TIPO_EXAMEN', 'NUM_PRESENTADOS', 'NUM_APTOS',
-             'NUM_APTOS_1conv', 'NUM_APTOS_2conv', 'NUM_APTOS_3_o_mas_conv', 'MES', 'ANYO']]
+    df.drop(columns=['NUM_APTOS_3o4conv', 'NUM_APTOS_5_o_mas_conv', 'NUM_NO_APTOS'], inplace=True)
     
     return df

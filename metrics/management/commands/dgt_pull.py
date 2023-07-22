@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand, CommandError
 import requests
-from metrics.utils import download_zipfile, extract_csv_from_zip
+from metrics.utils import download_zipfile, extract_csv_from_zip, parser_dgt_data
 import csv
 import os
 
@@ -18,14 +18,12 @@ class Command(BaseCommand):
             csv_path = extract_csv_from_zip(zipfile_path, csv_filename, output_dir)
             if csv_path:
                 print(f'Success: CSV file "{csv_filename}" extracted to "{csv_path}".')
-                # Open and process the CSV file as needed
-                with open(csv_path, 'r', encoding='latin-1') as csv_file:
-                    csv_data = csv.reader(csv_file)
-                    for row in csv_data:
-                        print(row)
+                df = parser_dgt_data(csv_path)
+                print(df)
             else:
                 print('Error: Failed to extract the CSV file.')
 
+
         self.stdout.write(
-            self.style.SUCCESS('Successfully pulled all data from dgt')
+            self.style.SUCCESS('Cambios: successfully pulled all data from dgt')
         )
