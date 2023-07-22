@@ -41,7 +41,10 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'metrics',
-    'users'
+    'users',
+    "drivingschools",
+    "locations",
+    "tests"
 ]
 
 CORS_ALLOW_ALL_ORIGINS=True
