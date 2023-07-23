@@ -20,7 +20,7 @@ const router = createBrowserRouter([
       element: <AuthOnly></AuthOnly>,
       children: [
         {
-          path: '/dashboard',
+          index: true,
           element: <Dashboard/>
         }
       ]

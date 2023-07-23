@@ -16,19 +16,19 @@ function FormikInput({name, label, iconLeft, iconRight, ...props}: Props) {
     const isInvalid = (meta.error?.length ?? 0) > 0
 
     return (
-        <Flex flexDir='column' gap='2'>
-            { label && <Text color='gray.400'>{label}</Text> }
-            <InputGroup>
+        <Flex flexDir='column' gap='2' p='1'>
+            { label && <Text color='gray.500'>{label}</Text> }
+            <InputGroup {...props}>
             {
                 iconLeft &&
-                <InputLeftElement color='gray.500' pointerEvents='none'>
-                    <Icon as={iconLeft}></Icon>
+                <InputLeftElement  color='gray.500' pointerEvents='none'>
+                    <Icon fontSize='xl' as={iconLeft}></Icon>
                 </InputLeftElement>
             }
-            <Input isInvalid={isInvalid} {...props} {...field}></Input>
+            <Input py='4'isInvalid={isInvalid} {...props} {...field}></Input>
             {
                 iconRight && 
-                <InputRightElement pointerEvents='none' color='gray.500'>
+                <InputRightElement  pointerEvents='none' color='gray.500'>
                     <Icon as={iconRight}></Icon>
                 </InputRightElement>
             }

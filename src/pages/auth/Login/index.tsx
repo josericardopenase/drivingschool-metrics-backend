@@ -1,4 +1,4 @@
-import { Box, Center, Flex, Text } from '@chakra-ui/react'
+import { Box, Center, Flex, Icon, SimpleGrid, Text, Image } from '@chakra-ui/react'
 import { Formik, replace } from 'formik'
 import React from 'react'
 import FormikInput from '../../../components/forms/FormikInput'
@@ -6,6 +6,8 @@ import FormikButton from '../../../components/forms/FormikButton'
 import {IoMdMail, IoMdLock} from 'react-icons/io'
 import { useLogin } from '../../../api/auth/useLogin'
 import { useNavigate } from 'react-router-dom'
+import logo from '../../../assets/logo.png'
+import charts from '../../../assets/graphs.png'
 
 interface Props {}
 
@@ -13,30 +15,40 @@ function Login(props: Props) {
 
     const navigate = useNavigate()
     const {mutate, error, isLoading} = useLogin({
-        onSuccess: () => navigate("/dashboard", {replace: true}) 
+        onSuccess: () => navigate("/", {replace: true}) 
     })
-console.log(error)
+
     return (
-        <Center bgColor='gray.100' height='100vh'>
-                <Box bgColor='white' maxW='450px' w='100%' p="12" shadow='md' borderRadius='2xl' display='flex' gap={8} flexDir='column'>
-                    <Box>
-                        <Text fontSize='2xl' color='gray.800' fontWeight='bold'>Iniciar Sesión</Text>
-                        <Text fontSize='lg' color='gray.500' mt='1'>Usa tu email y tu contraseña</Text>
+        <SimpleGrid columns={2} bgColor='gray.100' height='100vh' backgroundColor='primary.500' p='4'>
+                <Image  src={logo} position='absolute' w='190px' p='6'></Image>
+                <Center bgColor='white' w='100%' p="12" shadow='lg-soft' borderRadius='3xl' display='flex' gap={8} flexDir='column'>
+                    <Box w='100%' maxW='540px' flexDir='column' display='flex' gap='7'>
+                        <Box>
+                            <Text fontSize='3xl' color='gray.800' fontWeight='bold'>Iniciar Sesión</Text>
+                            <Text fontSize='lg' color='gray.500' mt='1'>Usa tu email y tu contraseña</Text>
+                        </Box>
+                        <Formik initialValues={{username : "", password: ""}} onSubmit={(data) => {mutate(data)}}>
+                            {
+                                () => (
+                                    <Flex flexDir='column' gap={5}>
+                                        <FormikInput  size='md' borderRadius='3xl' iconLeft={IoMdMail}  label='Email' variant='filled' placeholder='jhon@doe.com' name='username'></FormikInput>
+                                        <FormikInput size='md'  type='password' borderRadius='3xl'  iconLeft={IoMdLock} label='Password' variant='filled' placeholder='Password' name='password'></FormikInput>
+                                        <FormikButton borderRadius='3xl' isLoading={isLoading} size='md' colorScheme='primary'>Login</FormikButton>
+                                        <Text  color='primary.500'>{error?.toString()}</Text>
+                                    </Flex>
+                                )
+                            }
+                        </Formik>
                     </Box>
-                    <Formik initialValues={{username : "", password: ""}} onSubmit={(data) => {mutate(data)}}>
-                        {
-                            () => (
-                                <Flex flexDir='column' gap={5}>
-                                    <FormikInput borderRadius='xl' iconLeft={IoMdMail} label='Email' variant='filled' placeholder='jhon@doe.com' name='username'></FormikInput>
-                                    <FormikInput  type='password' borderRadius='xl' iconLeft={IoMdLock} label='Password' variant='filled' placeholder='Password' name='password'></FormikInput>
-                                    <FormikButton isLoading={isLoading} borderRadius='xl' colorScheme='red'>Login</FormikButton>
-                                    <Text color='red.500'>{error?.toString()}</Text>
-                                </Flex>
-                            )
-                        }
-                    </Formik>
-                </Box>
-        </Center>
+                </Center>
+                <Center>
+                    <Box textAlign='center'>
+                        <Text color='white' fontWeight='bold' fontSize='3xl'>Tu Autoescuela en números</Text>
+                        <Text color='whiteAlpha.700' fontWeight='semibold' fontSize='xl'>Mide hasta el mínimo detalle con datos oficiales de la DGT</Text>
+                        <Image  src={charts} w='680px' p='6'></Image>
+                    </Box>
+                </Center>
+        </SimpleGrid>
     )
 }
 

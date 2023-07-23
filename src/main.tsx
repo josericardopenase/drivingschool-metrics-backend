@@ -4,15 +4,8 @@ import App from './App.tsx'
 import { ChakraProvider } from '@chakra-ui/react'
 import {QueryClient, QueryClientProvider} from 'react-query'
 import './index.css'
+import theme from './theme/index.ts'
 
-import { extendTheme } from '@chakra-ui/react'
-
-const theme = extendTheme({
-  fonts: {
-    heading: `'Poppins', sans-serif`,
-    body: `'Poppins', sans-serif`,
-  },
-})
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
