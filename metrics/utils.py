@@ -19,8 +19,8 @@ def download_zipfile(year, month):
     url = 'https://sedeapl.dgt.gob.es/WEB_IEST_CONSULTA/microdatos.faces'
     payload = {
         'configuracionInfPersonalizado': 'configuracionInfPersonalizado',
-        'configuracionInfPersonalizado:filtroMesAnyo': str(year),
-        'configuracionInfPersonalizado:filtroMesMes': str(month),
+        'configuracionInfPersonalizado:filtroMesAnyo': year,
+        'configuracionInfPersonalizado:filtroMesMes': month,
         'configuracionInfPersonalizado:j_id131': 'Descargar',
         'javax.faces.ViewState': read_key_from_file(get_key_file_path())
     }
@@ -31,10 +31,8 @@ def download_zipfile(year, month):
         # Check if the response is a ZIP file
         # Extract the filename from the response headers
         content_disposition = response.headers.get('content-disposition')
-        if content_disposition:
-            filename = content_disposition.split('filename=')[1].strip('\"')
-        else:
-            filename = f'export_auto_{year}{month:02d}_data.zip'  # Generate a default filename
+        filename = content_disposition.split('filename=')[1].strip('\"')
+        
 
         # Save the file
         with open(filename, 'wb') as file:
@@ -59,10 +57,22 @@ def extract_csv_from_zip(zipfile_path, csv_filename, output_dir):
 def parser_dgt_data(ruta_csv):
     # Leer el archivo CSV
     df = pd.read_csv(ruta_csv, encoding='latin-1', delimiter=';')
-    
+
+    # Convert the columns to numeric types
+    df['NUM_APTOS_3o4conv'] = pd.to_numeric(df['NUM_APTOS_3o4conv'], errors='coerce')
+    df['NUM_APTOS_5_o_mas_conv'] = pd.to_numeric(df['NUM_APTOS_5_o_mas_conv'], errors='coerce')
+
+    # Create the new column by summing the two columns
     df['NUM_APTOS_3_o_mas_conv'] = df['NUM_APTOS_3o4conv'] + df['NUM_APTOS_5_o_mas_conv']
+
+    # Convert other relevant columns to numeric types if needed
+    df['NUM_APTOS'] = pd.to_numeric(df['NUM_APTOS'], errors='coerce')
+    df['NUM_NO_APTOS'] = pd.to_numeric(df['NUM_NO_APTOS'], errors='coerce')
+
+    # Perform calculations
     df['NUM_PRESENTADOS'] = df['NUM_APTOS'] + df['NUM_NO_APTOS']
 
+    # Drop unnecessary columns
     df.drop(columns=['NUM_APTOS_3o4conv', 'NUM_APTOS_5_o_mas_conv', 'NUM_NO_APTOS'], inplace=True)
-    
+
     return df
