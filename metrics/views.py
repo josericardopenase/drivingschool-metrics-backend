@@ -4,6 +4,7 @@ from tests.models import Test, TestType
 from drivingschools.models import DrivingSchool, DrivingSchoolSection, DrivingPermission
 from rest_framework import serializers
 from django.db.models import Sum
+from filters.models import QueryFilter
 
 @api_view()
 def graph1(request):
@@ -23,45 +24,9 @@ def graph1(request):
     # será el número de meses from & to 
     year = request.query_params.get('year')
     
-    final_result =  [None] * 12
+    final_result = [None] * 12
 
-    class FilterField():
-        def validate():
-            pass
 
-        def query():
-            pass
-
-    class ProvinceFilterField(FilterField):
-        def validate():
-            pass
-
-        def query():
-            pass
-
-    class DrivingSchoolFilterField(FilterField):
-        def validate():
-            pass
-
-        def query():
-            pass
-
-    class QueryFilter():
-        def __init__(self, filters, query_params):
-            self.query_params = query_params
-            self.filters = filters
-
-        def validate_params():
-            for x in filters:
-                x.validate()
-
-        def make_query():
-            for x in filters:
-                x.query()
-
-        def filter():
-            if not self.validate_params(): Exception("Not validated")
-            return self.make_query
 
     filters = QueryFilter([ProvinceFilterField(), DrivingSchoolFilterField], request.query_params)
     Test.objecs.filter(**filters.filter())
