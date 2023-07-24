@@ -45,8 +45,6 @@ def graph1(request):
                     autoescuela.name : result[row]["valor"]
                 }
     
-    print(result)
-
     final_result = [x for x in final_result if x is not None]
 
     return Response(final_result)

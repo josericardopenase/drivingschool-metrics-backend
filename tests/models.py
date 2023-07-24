@@ -8,7 +8,7 @@ class TestCenter(models.Model):
     province = models.ForeignKey(Province, on_delete=models.RESTRICT)
 
 class TestType(models.Model):
-    name = models.CharField(primary_key=True, max_length=255)
+    name = models.CharField(max_length=255)
 
 class Test(models.Model):
     test_center = models.ForeignKey(TestCenter, on_delete=models.RESTRICT)
