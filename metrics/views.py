@@ -4,6 +4,7 @@ from tests.models import Test, TestType
 from drivingschools.models import DrivingSchool, DrivingSchoolSection, DrivingPermission
 from rest_framework import serializers
 from django.db.models import Sum
+from utils.filters.core import QueryFilters, ModelFilter
 
 @api_view()
 def graph1(request):
@@ -13,58 +14,19 @@ def graph1(request):
     # parámetros autoescuelas
     autoescuela_param = request.query_params.get('autoescuela', "")
     autoescuelas = autoescuela_param.split(',') if autoescuela_param else []
-    autoescuelas_obj = DrivingSchool.objects.filter(name__in=autoescuelas) if len(autoescuelas) > 0 else DrivingSchool.objects.all()
+    autoescuelas_obj = DrivingSchool.objects.filter(id__in=autoescuelas) if len(autoescuelas) > 0 else DrivingSchool.objects.all()
 
     # parámetros permisos
     permiso_param = request.query_params.get('permiso', "")
     permisos = permiso_param.split(',') if permiso_param else []
-    permisos_obj = DrivingPermission.objects.filter(name__in=permisos) if len(permisos) > 0 else DrivingPermission.objects.all()
+    permisos_obj = DrivingPermission.objects.filter(id__in=permisos) if len(permisos) > 0 else DrivingPermission.objects.all()
 
     # será el número de meses from & to 
     year = request.query_params.get('year')
     
+
+    
     final_result =  [None] * 12
-
-    class FilterField():
-        def validate():
-            pass
-
-        def query():
-            pass
-
-    class ProvinceFilterField(FilterField):
-        def validate():
-            pass
-
-        def query():
-            pass
-
-    class DrivingSchoolFilterField(FilterField):
-        def validate():
-            pass
-
-        def query():
-            pass
-
-    class QueryFilter():
-        def __init__(self, filters, query_params):
-            self.query_params = query_params
-            self.filters = filters
-
-        def validate_params():
-            for x in filters:
-                x.validate()
-
-        def make_query():
-            for x in filters:
-                x.query()
-
-        def filter():
-            if not self.validate_params(): Exception("Not validated")
-            return self.make_query
-
-    filters = QueryFilter([ProvinceFilterField(), DrivingSchoolFilterField], request.query_params)
-    Test.objecs.filter(**filters.filter())
 
     for autoescuela in autoescuelas_obj:
         sections = DrivingSchoolSection.objects.filter(driving_school=autoescuela)
@@ -75,7 +37,7 @@ def graph1(request):
             'permission_type__in': permisos_obj,
         }
 
-        result = Test.objects.filter(params).values('month', 'year').annotate(valor=Sum(metrica_param))
+        result = Test.objects.filter(**params).values('month', 'year').annotate(valor=Sum(metrica_param))
         
         for row in range(0, len(result)):
             if final_result[row] == None:
