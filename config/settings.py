@@ -138,5 +138,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
         # ... (other authentication classes if needed)
     ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 20,  # Set your desired default page size here
     # ... (other rest_framework settings if needed)
 }

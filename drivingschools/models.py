@@ -1,7 +1,7 @@
 from django.db import models
 
 class DrivingSchool(models.Model):
-    code = models.CharField(max_length=10, primary_key=True)
+    code = models.CharField(max_length=10)
     name = models.CharField(max_length=255)
 
     def __str__(self):
@@ -15,7 +15,7 @@ class DrivingSchoolSection(models.Model):
         return "{} {}".format(self.driving_school, self.code)
     
 class DrivingPermission(models.Model):
-    name = models.CharField(max_length=255, primary_key=True)
+    name = models.CharField(max_length=255)
 
     def __str__(self):
         return self.name
