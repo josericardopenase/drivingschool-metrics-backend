@@ -17,6 +17,7 @@ django-cors-headers = "^4.2.0"
 pandas = "^2.0.3"
 tqdm = "^4.65.0"
 yaspin = "^2.3.0"
+django-queryable-properties = "^1.8.4"
 
 
 [build-system]

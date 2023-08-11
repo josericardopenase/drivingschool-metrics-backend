@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "corsheaders",
+    'django_filters',
     'rest_framework',
     'rest_framework.authtoken',
     'metrics',
@@ -138,7 +139,18 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
         # ... (other authentication classes if needed)
     ],
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 20,  # Set your desired default page size here
-    # ... (other rest_framework settings if needed)
+    'PAGE_SIZE': 100,  # Set your desired default page size here
+    'DEFAULT_PAGINATION_CLASS': 'utils.pagination.customPagination.CustomPagination',
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
+
+# settings.py
+
+# Define the directory where your static files are located during development
+STATICFILES_DIRS = [BASE_DIR / 'static']
+
+# Define the URL pattern for serving static files during development
+STATIC_URL = '/static/'
+
+# Define the directory where the static files will be collected for production
+STATIC_ROOT = BASE_DIR / 'staticfiles'

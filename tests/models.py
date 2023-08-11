@@ -1,6 +1,11 @@
 from django.db import models
 from locations.models import Province
 from drivingschools.models import DrivingPermission, DrivingSchoolSection
+from queryable_properties.properties import queryable_property
+from queryable_properties.managers import QueryablePropertiesManager
+from django.db import models
+from queryable_properties.managers import QueryablePropertiesManager
+from django.db.models import Count, F, Value
 
 # Create your models here.
 class TestCenter(models.Model):
@@ -19,8 +24,9 @@ class Test(models.Model):
     num_presentados = models.IntegerField()
     num_aptos_1_conv = models.IntegerField();
     month = models.IntegerField()
-    year =models.IntegerField()
+    year= models.IntegerField()
+    objects = QueryablePropertiesManager()
 
-    @property
+    @queryable_property(annotation_based=True)
     def num_suspensos(self):
-        return self.num_presentados - self.num_aptos
+        return F('num_presentados') - F('num_aptos')

@@ -169,6 +169,21 @@ files = [
 Django = ">=3.2"
 
 [[package]]
+name = "django-queryable-properties"
+version = "1.8.4"
+description = "Write Django model properties that can be used in database queries."
+optional = false
+python-versions = "*"
+files = [
+    {file = "django-queryable-properties-1.8.4.tar.gz", hash = "sha256:ed2aac9168ecce664dd3c2a65cfb6fc9fd2e3aa9b2acc3a4d75a948a67b719d3"},
+    {file = "django_queryable_properties-1.8.4-py2.py3-none-any.whl", hash = "sha256:4c2399847f5dd0a3eedabfc91865a0847aa58fc6cd80555151363943891ff4cd"},
+]
+
+[package.dependencies]
+Django = ">=1.4"
+six = ">=1.9"
+
+[[package]]
 name = "djangorestframework"
 version = "3.14.0"
 description = "Web APIs for Django, made easy."
@@ -460,4 +475,4 @@ termcolor = ">=2.2,<3.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "91c08abc2bd624783081dc56bf610d54e3fa355b7f83f8abf9ed75adb5546161"
+content-hash = "b9cf8e45c2a14a4627600cc66c7ddeaea382a61f845fb5c53d7f75238d78c5cd"

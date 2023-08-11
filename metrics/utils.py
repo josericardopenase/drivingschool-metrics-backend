@@ -58,7 +58,10 @@ def parser_dgt_data(ruta_csv):
     # Leer el archivo CSV
     df = pd.read_csv(ruta_csv, encoding='latin-1', delimiter=';')
 
-    # Convert the columns to numeric types
+    # Filtrar por DESC_PROVINCIA 'Palmas (Las)'
+    df = df[df['DESC_PROVINCIA'] == 'Palmas (Las)']
+
+    # Convert the columns to numeric typesk
     df['NUM_APTOS_3o4conv'] = pd.to_numeric(df['NUM_APTOS_3o4conv'], errors='coerce')
     df['NUM_APTOS_5_o_mas_conv'] = pd.to_numeric(df['NUM_APTOS_5_o_mas_conv'], errors='coerce')
 
@@ -71,6 +74,7 @@ def parser_dgt_data(ruta_csv):
 
     # Perform calculations
     df['NUM_PRESENTADOS'] = df['NUM_APTOS'] + df['NUM_NO_APTOS']
+
 
     # Drop unnecessary columns
     df.drop(columns=['NUM_APTOS_3o4conv', 'NUM_APTOS_5_o_mas_conv', 'NUM_NO_APTOS'], inplace=True)
