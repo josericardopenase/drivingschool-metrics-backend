@@ -34,7 +34,7 @@ function Login(props: Props) {
                                         <FormikInput  size='md' borderRadius='3xl' iconLeft={IoMdMail}  label='Email' variant='filled' placeholder='jhon@doe.com' name='username'></FormikInput>
                                         <FormikInput size='md'  type='password' borderRadius='3xl'  iconLeft={IoMdLock} label='Password' variant='filled' placeholder='Password' name='password'></FormikInput>
                                         <FormikButton borderRadius='3xl' isLoading={isLoading} size='md' colorScheme='primary'>Login</FormikButton>
-                                        <Text  color='primary.500'>{error?.toString()}</Text>
+                                        <Text  color='red.500'>{error?.toString()}</Text>
                                     </Flex>
                                 )
                             }

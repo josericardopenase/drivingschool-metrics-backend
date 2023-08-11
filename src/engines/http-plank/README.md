@@ -1,0 +1,3 @@
+# dependencies:
+- axios
+- react-query

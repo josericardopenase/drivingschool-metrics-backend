@@ -1,16 +1,17 @@
-import { Flex, Icon, Input, InputGroup, InputLeftElement, InputProps, InputRightElement, Text } from '@chakra-ui/react'
+import { Flex, Icon, Input, InputGroup, InputLeftElement, InputProps, InputRightElement, Select, SelectProps, Text } from '@chakra-ui/react'
 import React from 'react'
 import { useField } from 'formik';
 import { IconType } from 'react-icons'
 
-interface Props extends InputProps {
+interface Props extends SelectProps {
     name : string
     label ?: string
     iconLeft ?: IconType
     iconRight ?: IconType
+    options: {value: string, label : string}[]
 }
 
-function FormikInput({name, label, iconLeft, iconRight, ...props}: Props) {
+function FormikSelect({name, label, iconLeft, iconRight, options, ...props}: Props) {
 
     const [field, meta, helpers] = useField(name);
     const isInvalid = (meta.error?.length ?? 0) > 0
@@ -25,7 +26,11 @@ function FormikInput({name, label, iconLeft, iconRight, ...props}: Props) {
                     <Icon fontSize='xl' as={iconLeft}></Icon>
                 </InputLeftElement>
             }
-            <Input py='4'isInvalid={isInvalid} {...props} {...field}></Input>
+            <Select py='4'isInvalid={isInvalid} {...props} {...field}>
+                {
+                    options.map((x) => <option value={x.value}>{x.label}</option>)
+                }
+            </Select>
             {
                 iconRight && 
                 <InputRightElement  pointerEvents='none' color='gray.500'>
@@ -37,4 +42,4 @@ function FormikInput({name, label, iconLeft, iconRight, ...props}: Props) {
     )
 }
 
-export default FormikInput
+export default FormikSelect

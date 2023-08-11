@@ -1,9 +1,14 @@
 
-import axios, { AxiosInstance, AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios';
-
+import axios, { AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios';
+import qs from 'qs'
 
 const APIClient = axios.create({
-    baseURL: "http://127.0.0.1:8000/"
+    baseURL: import.meta.env.VITE_API,
+    paramsSerializer: params => {
+        // all params that are array must be handled like a string with comma separation
+        // must implement default serializer for the other params
+        return qs.stringify(params, { arrayFormat: 'comma' })
+      }
 })
 
 function  getTokenInterceptor(config : AxiosRequestConfig) : InternalAxiosRequestConfig{
