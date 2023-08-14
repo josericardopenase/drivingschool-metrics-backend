@@ -5,6 +5,7 @@ from rest_framework import generics
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
 
+
 class DrivingSchoolViewSet(viewsets.ModelViewSet):
     queryset = DrivingSchool.objects.all()
     serializer_class = DrivingSchoolSerializer
@@ -13,11 +14,14 @@ class DrivingSchoolViewSet(viewsets.ModelViewSet):
     search_fields = ['name']
     ordering_fields = ['name', 'id']
     ordering = ['id']
+    permission_classes = (IsAuthenticated, )
 
 class DrivingPermissionViewSet(viewsets.ModelViewSet):
     queryset = DrivingPermission.objects.all()
     serializer_class = DrivingPermissionSerializer
+    permission_classes = (IsAuthenticated, )
 
 class DrivingSchoolSectionViewSet(viewsets.ModelViewSet):
     queryset = DrivingSchoolSection.objects.all()
     serializer_class = DrivingSchoolSectionSerializer
+    permission_classes = (IsAuthenticated, )

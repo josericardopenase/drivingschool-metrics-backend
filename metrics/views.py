@@ -5,8 +5,10 @@ from drivingschools.models import DrivingSchool, DrivingSchoolSection, DrivingPe
 from rest_framework import serializers
 from django.db.models import Sum
 from metrics.filters import *
+from rest_framework.permissions import IsAuthenticated
 
 @api_view()
+@permission_classes([IsAuthenticated])
 def graph1(request):
 
     metrica_param = request.query_params.get('metrica', "num_presentados") 
@@ -54,6 +56,7 @@ def graph1(request):
     })
 
 @api_view()
+@permission_classes([IsAuthenticated])
 def graph2(request):
 
     # parámetros permisos
@@ -95,6 +98,7 @@ def graph2(request):
     return Response(final_result)
 
 @api_view()
+@permission_classes([IsAuthenticated])
 def graph3(request):
 
     filters = [
@@ -129,6 +133,7 @@ def graph3(request):
     return Response(final_result)
 
 @api_view()
+@permission_classes([IsAuthenticated])
 def graph4(request):
 
     metrica_param = request.query_params.get('metrica', "num_presentados") 
