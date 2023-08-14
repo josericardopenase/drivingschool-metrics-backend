@@ -2,7 +2,7 @@ from .base import *
 import os
 
 # SECURITY WARNING: don't run with debug turned on in production!
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '0.0.0.0']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '0.0.0.0', 'hidden-basin-07379-f12c228b10fd.herokuapp.com']
 DEBUG = False
 
 # Database
