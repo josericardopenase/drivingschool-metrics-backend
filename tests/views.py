@@ -2,6 +2,7 @@
 from rest_framework import viewsets
 from .models import TestCenter, TestType, Test
 from .serializers import TestCenterSerializer, TestTypeSerializer, TestSerializer
+from rest_framework.permissions import IsAuthenticated
 
 class TestCenterViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated, )
