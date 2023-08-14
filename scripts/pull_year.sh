@@ -4,8 +4,13 @@ function run_dgt_pull_command() {
     year=$1
     month=$2
 
-    echo "Running Django command for year: $year, month: $month"
-    poetry run python3 manage.py dgt_pull $year $month
+    if [ "$DJANGO_ENV" = "production" ]; then
+        echo "Running Django command for year: $year, month: $month in production environment"
+        python3 manage.py dgt_pull $year $month
+    else
+        echo "Running Django command for year: $year, month: $month in development environment"
+        poetry run python3 manage.py dgt_pull $year $month
+    fi
 }
 
 # Check if the year argument is provided

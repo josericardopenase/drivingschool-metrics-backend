@@ -19,6 +19,7 @@ tqdm = "^4.65.0"
 yaspin = "^2.3.0"
 django-queryable-properties = "^1.8.4"
 gunicorn = "^21.2.0"
+psycopg2-binary = "^2.9.7"
 
 
 [build-system]
