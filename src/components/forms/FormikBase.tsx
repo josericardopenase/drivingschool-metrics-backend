@@ -1,23 +1,21 @@
-import { Flex, Icon, Input, InputGroup, InputLeftElement, InputProps, InputRightElement, Select, SelectProps, Text } from '@chakra-ui/react'
+import { BoxProps, Flex, Icon, InputGroup, InputLeftElement, InputRightElement, Text } from '@chakra-ui/react'
 import React from 'react'
-import { useField } from 'formik';
+import { FieldHelperProps, FieldInputProps, FieldMetaProps, useField } from 'formik';
 import { IconType } from 'react-icons'
 
-interface Props extends SelectProps {
+export interface FormikBaseProps extends Omit<BoxProps, 'children'> {
     name : string
     label ?: string
     iconLeft ?: IconType
     iconRight ?: IconType
-    options: {value: string, label : string}[]
+    children : (field : FieldInputProps<any>, meta: FieldMetaProps<any>, helpers : FieldHelperProps<any>, props: BoxProps) => React.ReactNode
 }
 
-function FormikSelect({name, label, iconLeft, iconRight, options, ...props}: Props) {
-
+function FormikBase({name, label, iconLeft, iconRight, children, ...props}: FormikBaseProps) {
     const [field, meta, helpers] = useField(name);
-    const isInvalid = (meta.error?.length ?? 0) > 0
 
     return (
-        <Flex flexDir='column' gap='2' >
+        <Flex flexDir='column' gap='2' p='1'>
             { label && <Text color='gray.500'>{label}</Text> }
             <InputGroup >
             {
@@ -26,11 +24,9 @@ function FormikSelect({name, label, iconLeft, iconRight, options, ...props}: Pro
                     <Icon fontSize='xl' as={iconLeft}></Icon>
                 </InputLeftElement>
             }
-            <Select py='4'isInvalid={isInvalid} {...props} {...field}>
-                {
-                    options.map((x) => <option value={x.value}>{x.label}</option>)
-                }
-            </Select>
+            {
+                children(field, meta, helpers, props)
+            }
             {
                 iconRight && 
                 <InputRightElement  pointerEvents='none' color='gray.500'>
@@ -42,4 +38,4 @@ function FormikSelect({name, label, iconLeft, iconRight, options, ...props}: Pro
     )
 }
 
-export default FormikSelect
+export default FormikBase

@@ -8,6 +8,7 @@ import { DrivingSchoolService } from '../../api/resources/driving/schools';
 import { Box, Flex } from '@chakra-ui/react';
 import FormikSelect from '../forms/FormikSelect';
 import FormikMultipleSelect from '../forms/FormikMultipleSelect';
+import { PermissionServices } from '../../api/resources/driving/permissions';
 
 const pallete =[
   '#D53F8C',
@@ -25,14 +26,22 @@ export default function Chart4(){
 
   const [filters, setFilters] = useState({years: ["2023"], autoescuela: 38})
   const {data, isLoading} = useGraphData('graph4', filters);
-  const ds = DrivingSchoolService.useList();
 
     return (
       <BaseChart setFilters={setFilters} filtersValue={filters} title='Comparativa por año' filters={<Flex gap={3} alignItems='center' justifyContent='space-between'>
-        <FormikSelect w='fit-content' name='autoescuela' variant='filled' options={ds.data?.results.map((x) => ({value: x.id.toString(), label : x.name})) ?? []}></FormikSelect>
-        <Flex alignItems='center'>
+        <FormikApiSelect single apiService={DrivingSchoolService} label="Autoescuelas" name='autoescuela'>
+          {
+            (x) => <Box><Text>{x.name}</Text></Box>
+          }
+        </FormikApiSelect>
+        <Flex alignItems='center' gap={2}>
+          <FormikApiSelect single apiService={PermissionServices} label="Permisos" name='permission'>
+            {
+              (x) => <Box><Text>{x.name}</Text></Box>
+            }
+          </FormikApiSelect>
           <FormikSelect variant='filled' w='fit-content' name='metrica' options={[{label: "Presentados", value: "num_presentados"}, {label: "Suspensos", value: "num_suspensos"}, {label: "Aprobados", value: "num_aptos"}, {label: "Aprobados 1 conv", value: "num_aptos_1_conv"}, ]}></FormikSelect >
-          <FormikMultipleSelect name='years' options={[{ label: "2023", value: "2023" }, { label: "2022", value: "2022" }, { label: "2021", value: "2021" }, { label: "2020", value: "2020" }]} label='Años comparativa'/>
+          <FormikMultipleSelect name='years' options={[{ label: "2023", value: "2023" }, { label: "2022", value: "2022" }, { label: "2021", value: "2021" }, { label: "2020", value: "2020" }]} label='Años'/>
         </Flex>
       </Flex>}>
         <ResponsiveContainer width="100%" height={380}>

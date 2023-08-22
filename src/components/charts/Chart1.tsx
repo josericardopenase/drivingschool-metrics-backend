@@ -7,6 +7,7 @@ import { months } from '../../utils/dates';
 import { DrivingSchoolService } from '../../api/resources/driving/schools';
 import { Box, Flex } from '@chakra-ui/react';
 import FormikSelect from '../forms/FormikSelect';
+import { PermissionServices } from '../../api/resources/driving/permissions';
 
 const pallete =[
   '#D53F8C',
@@ -32,8 +33,13 @@ export default function Chart1(){
             (x) => <Box><Text>{x.name}</Text></Box>
           }
         </FormikApiSelect>
-        <Flex alignItems='center'>
-          <FormikSelect variant='filled' w='fit-content' name='metrica' options={[{label: "Presentados", value: "num_presentados"}, {label: "Suspensos", value: "num_suspensos"}, {label: "Aprobados", value: "num_aptos"}, {label: "Aprobados 1 conv", value: "num_aptos_1_conv"}, ]}></FormikSelect >
+        <Flex alignItems='center' gap={2}>
+          <FormikApiSelect single apiService={PermissionServices} label="Permisos" name='permission'>
+            {
+              (x) => <Box><Text>{x.name}</Text></Box>
+            }
+          </FormikApiSelect>
+          <FormikSelect variant='filled' w='fit-content' name='metrica' options={[{label: "Presentados", value: "num_presentados"}, {label: "Suspensos", value: "num_suspensos"}, {label: "Aprobados", value: "num_aptos"}, {label: "Aprobados 1 conv", value: "num_aptos_1_conv"}, ]}></FormikSelect>
           <FormikSelect variant='filled' w='fit-content' name='year' options={[{label: "2023", value: "2023"}, {label: "2022", value: "2022"}, {label: "2021", value: "2021"}, {label: "2020", value: "2020"}, ]}></FormikSelect>
         </Flex>
       </Flex>}>

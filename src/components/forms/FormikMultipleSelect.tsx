@@ -18,6 +18,7 @@ import { listApiResponse } from '../../engines/http-plank/src/types/apitypes';
 interface Props<T extends {id ?: number}> {
     label : React.ReactNode | string,
     name : string,
+    single ?: boolean,
     options: {value: string, label : string}[]
 }
 
@@ -28,10 +29,19 @@ function FormikMultipleSelect<T extends {id ?: number}>(props: Props<T>) {
     const [field, meta, helpers] = useField(props.name);
 
     function toggleValue(id :any){
-      if(field.value.includes(id)){
-        helpers.setValue(field.value.filter((x : any) => x != id));
+
+      if (props.single){
+        if(field.value == id){
+          helpers.setValue(field.value);
+        }else{
+          helpers.setValue(null);
+        }
       }else{
-        helpers.setValue([...field.value, id]);
+        if(field.value.includes(id)){
+          helpers.setValue(field.value.filter((x : any) => x != id));
+        }else{
+          helpers.setValue([...field.value, id]);
+        }
       }
     }
 
@@ -51,9 +61,11 @@ function FormikMultipleSelect<T extends {id ?: number}>(props: Props<T>) {
             {
               props.options?.map((x) => 
                   <Flex cursor='pointer' alignItems='center' px='4' py='1' onClick={() => {toggleValue(x.value ?? 0)}}>
-                    
                     {
-                      field.value.includes(x.value) ? <Icon color='green.500' as={IoCheckmark}></Icon> : null
+                      !props.single ?
+                        field.value.includes(x.value) ? <Icon color='green.500' as={IoCheckmark}></Icon> : null
+                      :
+                        field.value === x.value ? <Icon color='green.500' as={IoCheckmark}></Icon> : null
                     }
                     {x.label}
                   </Flex>
