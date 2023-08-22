@@ -20,16 +20,15 @@ def graph1(request):
     autoescuelas_obj = DrivingSchool.objects.filter(id__in=autoescuelas) if len(autoescuelas) > 0 else DrivingSchool.objects.all()
 
     # parámetros permisos
-    permiso_param = request.query_params.get('permiso', "")
-    permisos = permiso_param.split(',') if permiso_param else []
-    permisos_obj = DrivingPermission.objects.filter(id__in=permisos) if len(permisos) > 0 else DrivingPermission.objects.all()
+    permiso_param = request.query_params.get('permission', None)
+    permisos_obj = DrivingPermission.objects.filter(id__in=permiso_param) if permiso_param else DrivingPermission.objects.all()
 
     final_result = [None] * 37
     y_labels = []
 
     for autoescuela in autoescuelas_obj:
         sections = DrivingSchoolSection.objects.filter(driving_school=autoescuela)
-        result = Test.objects.filter(school_section__in=sections, year=year).values('month', 'year').annotate(valor=Sum(metrica_param))
+        result = Test.objects.filter(school_section__in=sections, year=year, permission_type__in=permisos_obj).values('month', 'year').annotate(valor=Sum(metrica_param))
         
         for row in range(0, len(result)):
             if autoescuela.name not in y_labels: y_labels.append(autoescuela.name)
@@ -143,6 +142,10 @@ def graph4(request):
     autoescuela_param = request.query_params.get('autoescuela', 1)
     autoescuelas_obj = DrivingSchool.objects.get(id=autoescuela_param)
 
+    # parámetros permisos
+    permiso_param = request.query_params.get('permission', None)
+    permisos_obj = DrivingPermission.objects.filter(id__in=permiso_param) if permiso_param else DrivingPermission.objects.all()
+
     final_result = [None] * 37
     y_labels = []
 
@@ -150,7 +153,7 @@ def graph4(request):
 
     for year in years:
         sections = DrivingSchoolSection.objects.filter(driving_school=autoescuelas_obj)
-        result = Test.objects.filter(school_section__in=sections, year=year).values('month', 'year').annotate(valor=Sum(metrica_param))
+        result = Test.objects.filter(school_section__in=sections, year=year, permission_type__in=permisos_obj).values('month', 'year').annotate(valor=Sum(metrica_param))
         print("hello")
 
         for row in range(0, len(result)):
