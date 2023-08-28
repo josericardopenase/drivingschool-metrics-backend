@@ -22,13 +22,17 @@ def graph1(request):
     # parámetros permisos
     permiso_param = request.query_params.get('permission', None)
     permisos_obj = DrivingPermission.objects.filter(id__in=permiso_param) if permiso_param else DrivingPermission.objects.all()
+    
+    # parámetros tests
+    tests_params = request.query_params.get('test_type', None)
+    tests_obj = TestType.objects.filter(id__in=tests_params) if tests_params else TestType.objects.all()
 
     final_result = [None] * 37
     y_labels = []
 
     for autoescuela in autoescuelas_obj:
         sections = DrivingSchoolSection.objects.filter(driving_school=autoescuela)
-        result = Test.objects.filter(school_section__in=sections, year=year, permission_type__in=permisos_obj).values('month', 'year').annotate(valor=Sum(metrica_param))
+        result = Test.objects.filter(school_section__in=sections, year=year, permission_type__in=permisos_obj, test_type__in = tests_obj).values('month', 'year').annotate(valor=Sum(metrica_param))
         
         for row in range(0, len(result)):
             if autoescuela.name not in y_labels: y_labels.append(autoescuela.name)
@@ -146,6 +150,10 @@ def graph4(request):
     permiso_param = request.query_params.get('permission', None)
     permisos_obj = DrivingPermission.objects.filter(id__in=permiso_param) if permiso_param else DrivingPermission.objects.all()
 
+    # parámetros tests
+    tests_params = request.query_params.get('test_type', None)
+    tests_obj = TestType.objects.filter(id__in=tests_params) if tests_params else TestType.objects.all()
+
     final_result = [None] * 37
     y_labels = []
 
@@ -153,7 +161,7 @@ def graph4(request):
 
     for year in years:
         sections = DrivingSchoolSection.objects.filter(driving_school=autoescuelas_obj)
-        result = Test.objects.filter(school_section__in=sections, year=year, permission_type__in=permisos_obj).values('month', 'year').annotate(valor=Sum(metrica_param))
+        result = Test.objects.filter(school_section__in=sections, year=year, permission_type__in=permisos_obj, test_type__in = tests_obj).values('month', 'year').annotate(valor=Sum(metrica_param))
         print("hello")
 
         for row in range(0, len(result)):
