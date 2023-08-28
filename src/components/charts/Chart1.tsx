@@ -8,6 +8,7 @@ import { DrivingSchoolService } from '../../api/resources/driving/schools';
 import { Box, Flex } from '@chakra-ui/react';
 import FormikSelect from '../forms/FormikSelect';
 import { PermissionServices } from '../../api/resources/driving/permissions';
+import { TestTypeService } from '../../api/resources/tests/types';
 
 const pallete =[
   '#D53F8C',
@@ -34,6 +35,11 @@ export default function Chart1(){
           }
         </FormikApiSelect>
         <Flex alignItems='center' gap={2}>
+          <FormikApiSelect single apiService={TestTypeService} label="Tipo de examen" name='test_type'>
+            {
+              (x) => <Box><Text>{x.name}</Text></Box>
+            }
+          </FormikApiSelect>
           <FormikApiSelect single apiService={PermissionServices} label="Permisos" name='permission'>
             {
               (x) => <Box><Text>{x.name}</Text></Box>
