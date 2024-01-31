@@ -9,7 +9,10 @@ import { Link, useLocation } from 'react-router-dom';
 
 function Header() {
 
-    const {data, isLoading} = useProfile();
+    const {data, isLoading} = useProfile({onSuccess:  () => {
+        
+        }
+    });
     const {mutate} = useLogout()
 
 
