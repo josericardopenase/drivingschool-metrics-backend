@@ -11,4 +11,6 @@ export  interface User {
     date_joined: string;
     groups: any[]; // If you have a specific type for groups, replace `any[]` with that type
     user_permissions: any[]; // If you have a specific type for user permissions, replace `any[]` with that type
+    driving_school : number;
+
   }

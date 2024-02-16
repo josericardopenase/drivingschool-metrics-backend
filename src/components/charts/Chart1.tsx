@@ -9,6 +9,7 @@ import { Box, Flex } from '@chakra-ui/react';
 import FormikSelect from '../forms/FormikSelect';
 import { PermissionServices } from '../../api/resources/driving/permissions';
 import { TestTypeService } from '../../api/resources/tests/types';
+import { useProfile } from '../../api/auth/useProfile';
 
 const pallete =[
   '#D53F8C',
@@ -22,9 +23,9 @@ const generateCustomColor = (index : number) => {
 };
 
 
-export default function Chart1(){
+export default function Chart1({drivingSchoolId} : {drivingSchoolId :number}){
 
-  const [filters, setFilters] = useState({year: "2023", autoescuela: [38]})
+  const [filters, setFilters] = useState({year: "2023", autoescuela: [drivingSchoolId]})
   const {data, isLoading} = useGraphData('graph1', filters);
 
     return (

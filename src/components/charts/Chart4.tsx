@@ -23,9 +23,9 @@ const generateCustomColor = (index : number) => {
 };
 
 
-export default function Chart4(){
+export default function Chart4({drivingSchoolId} : {drivingSchoolId :number}){
 
-  const [filters, setFilters] = useState({years: ["2023"], autoescuela: 38})
+  const [filters, setFilters] = useState({years: ["2023"], autoescuela: drivingSchoolId})
   const {data, isLoading} = useGraphData('graph4', filters);
 
     return (
