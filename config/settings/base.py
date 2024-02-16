@@ -148,6 +148,6 @@ STATICFILES_DIRS = [BASE_DIR / 'staticfiles']
 STATIC_URL = '/static/'
 
 # Define the directory where the static files will be collected for production
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_ROOT = BASE_DIR / 'static'
 
 AUTH_USER_MODEL = 'users.User'
