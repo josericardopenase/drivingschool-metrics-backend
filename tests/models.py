@@ -12,6 +12,9 @@ class TestCenter(models.Model):
     name = models.CharField(max_length=255)
     province = models.ForeignKey(Province, on_delete=models.RESTRICT)
 
+    def __str__(self) -> str:
+        return self.name
+
 class TestType(models.Model):
     name = models.CharField(max_length=255)
 
@@ -32,4 +35,4 @@ class Test(models.Model):
         return F('num_presentados') - F('num_aptos')
     
     def __str__(self) -> str:
-        return self.test_center.__str__ + " " + self.school_section.driving_school.__str__ + " " + "mes: " + self.month + " año" + self.year
+        return self.test_center.__str__() + " " + self.school_section.driving_school.__str__() + " " + "mes: " + self.month + " año" + self.year
