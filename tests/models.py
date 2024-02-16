@@ -30,3 +30,6 @@ class Test(models.Model):
     @queryable_property(annotation_based=True)
     def num_suspensos(self):
         return F('num_presentados') - F('num_aptos')
+    
+    def __str__(self) -> str:
+        return self.test_center.__str__ + " " + self.school_section.driving_school.__str__ + " " + "mes: " + self.month + " año" + self.year
