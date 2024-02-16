@@ -45,7 +45,9 @@ def graph1(request):
             else:
                 final_result[row] = {
                     **final_result[row],
-                    autoescuela.name : result[row]["valor"]
+                    autoescuela.name : result[row]["valor"],
+                    "month": result[row]["month"],
+                    "year": result[row]["year"],
                 }
     
     final_result = [x for x in final_result if x is not None]

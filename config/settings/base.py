@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'users',
     "drivingschools",
     "locations",
-    "tests"
+    "tests",
 ]
 
 CORS_ALLOW_ALL_ORIGINS=True
@@ -156,3 +156,5 @@ STATIC_URL = '/static/'
 
 # Define the directory where the static files will be collected for production
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+AUTH_USER_MODEL = 'users.User'
