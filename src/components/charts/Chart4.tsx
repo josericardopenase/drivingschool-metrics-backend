@@ -47,7 +47,7 @@ export default function Chart4(){
             }
           </FormikApiSelect>
           <FormikSelect variant='filled' w='fit-content' name='metrica' options={[{label: "Presentados", value: "num_presentados"}, {label: "Suspensos", value: "num_suspensos"}, {label: "Aprobados", value: "num_aptos"}, {label: "Aprobados 1 conv", value: "num_aptos_1_conv"}, ]}></FormikSelect >
-          <FormikMultipleSelect name='years' options={[{ label: "2023", value: "2023" }, { label: "2022", value: "2022" }, { label: "2021", value: "2021" }, { label: "2020", value: "2020" }]} label='Años'/>
+          <FormikMultipleSelect name='years' options={[{ label: "2025", value: "2025" }, { label: "2024", value: "2024" },{ label: "2023", value: "2023" }, { label: "2022", value: "2022" }, { label: "2021", value: "2021" }, { label: "2020", value: "2020" }]} label='Años'/>
         </Flex>
       </Flex>}>
         <ResponsiveContainer width="100%" height={380}>
