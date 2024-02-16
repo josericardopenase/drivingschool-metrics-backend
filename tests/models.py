@@ -35,4 +35,4 @@ class Test(models.Model):
         return F('num_presentados') - F('num_aptos')
     
     def __str__(self) -> str:
-        return self.test_center.__str__() + " " + self.school_section.driving_school.__str__() + " " + "mes: " + self.month + " año" + self.year
+        return self.test_center.__str__() + " " + self.school_section.driving_school.__str__() + " " + "mes: " + str(self.month) + " año" + str(self.year)
