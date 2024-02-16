@@ -142,12 +142,12 @@ REST_FRAMEWORK = {
 # settings.py
 
 # Define the directory where your static files are located during development
-STATICFILES_DIRS = [BASE_DIR / 'static']
+STATICFILES_DIRS = [BASE_DIR / 'staticfiles']
 
 # Define the URL pattern for serving static files during development
 STATIC_URL = '/static/'
 
 # Define the directory where the static files will be collected for production
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+#STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 AUTH_USER_MODEL = 'users.User'
