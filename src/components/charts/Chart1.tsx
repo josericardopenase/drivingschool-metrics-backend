@@ -53,7 +53,7 @@ export default function Chart1({drivingSchoolId} : {drivingSchoolId :number}){
         <ResponsiveContainer width="100%" height={380}>
           <LineChart
           height={500}
-            data={data?.records}
+            data={data?.records.sort((x, y) => x.month - y.month)}
             margin={{
               top: 5,
               right: 10,

@@ -20,7 +20,7 @@ function Login(props: Props) {
 
     return (
         <SimpleGrid columns={2} bgColor='gray.100' height='100vh' backgroundColor='primary.500' p='4'>
-                <Image  src={logo} position='absolute' w='190px' p='6'></Image>
+                <Image  src={"https://www.autoescuelaseco.com/wp-content/uploads/2023/07/new-logo.png"} position='absolute' w='200px' p='10'></Image>
                 <Center bgColor='white' w='100%' p="12" shadow='lg-soft' borderRadius='3xl' display='flex' gap={8} flexDir='column'>
                     <Box w='100%' maxW='540px' flexDir='column' display='flex' gap='7'>
                         <Box>
@@ -45,7 +45,7 @@ function Login(props: Props) {
                     <Box textAlign='center'>
                         <Text color='white' fontWeight='bold' fontSize='3xl'>Tu Autoescuela en números</Text>
                         <Text color='whiteAlpha.700' fontWeight='semibold' fontSize='xl'>Mide hasta el mínimo detalle con datos oficiales de la DGT</Text>
-                        <Image  src={charts} w='680px' p='6'></Image>
+                        <Image  src={"https://www.autoescuelaseco.com/wp-content/uploads/2021/04/foto-coches.jpg"} w='680px' p='6' borderRadius="50px"></Image>
                     </Box>
                 </Center>
         </SimpleGrid>

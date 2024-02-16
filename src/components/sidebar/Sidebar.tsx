@@ -44,8 +44,8 @@ function Sidebar() {
     return (
         <Box position='fixed' left='0' h='100vh' zIndex='10' p='2' display='flex' justifyContent='space-between' w='300px' >
            <Box h='100%' bgColor='primary.500' borderRadius='3xl' p='6' w='100%' display='flex' flexDirection='column' gap={14} shadow='xl'>
-                <Box>
-                    <Image w='150px' src={logo}></Image>
+                <Box p="4" pb="0">
+                  <Text color="white" fontWeight="semibold" fontSize="2xl">ECO métricas</Text>
                 </Box>
                 <Box gap={6} display='flex' flexDir='column'>
                     <HeaderLink icon={BiHome} to='/'>General</HeaderLink>
