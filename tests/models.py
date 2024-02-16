@@ -18,6 +18,9 @@ class TestCenter(models.Model):
 class TestType(models.Model):
     name = models.CharField(max_length=255)
 
+    def __str__(self) -> str:
+        return self.name
+
 class Test(models.Model):
     test_center = models.ForeignKey(TestCenter, on_delete=models.RESTRICT)
     test_type = models.ForeignKey(TestType, on_delete=models.RESTRICT)

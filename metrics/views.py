@@ -6,49 +6,54 @@ from rest_framework import serializers
 from django.db.models import Sum
 from metrics.filters import *
 from rest_framework.permissions import IsAuthenticated
+import pandas as pd
+
+from django.db.models import Sum
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+import pandas as pd
 
 @api_view()
 @permission_classes([IsAuthenticated])
 def graph1(request):
+    metrica_param = request.query_params.get('metrica', "num_presentados")
+    year = request.query_params.get('year', "2023")
 
-    metrica_param = request.query_params.get('metrica', "num_presentados") 
-    year = request.query_params.get('year', 2023) 
-
-    # parámetros autoescuelas
+    # Parameters for driving schools
     autoescuela_param = request.query_params.get('autoescuela', "")
     autoescuelas = autoescuela_param.split(',') if autoescuela_param else []
     autoescuelas_obj = DrivingSchool.objects.filter(id__in=autoescuelas) if len(autoescuelas) > 0 else DrivingSchool.objects.all()
 
-    # parámetros permisos
+    # Parameters for permissions
     permiso_param = request.query_params.get('permission', None)
-    permisos_obj = DrivingPermission.objects.filter(id__in=permiso_param) if permiso_param else DrivingPermission.objects.all()
+    permisos_obj = DrivingPermission.objects.filter(id__in=permiso_param.split(',')) if permiso_param else DrivingPermission.objects.all()
     
-    # parámetros tests
+    # Parameters for test types
     tests_params = request.query_params.get('test_type', None)
-    tests_obj = TestType.objects.filter(id__in=tests_params) if tests_params else TestType.objects.all()
+    tests_obj = TestType.objects.filter(id__in=tests_params.split(',')) if tests_params else TestType.objects.all()
 
-    final_result = [None] * 37
-    y_labels = []
+    # Querying the tests
+    tests = Test.objects.filter(
+        school_section__driving_school__in=autoescuelas_obj, 
+        year=year, 
+        permission_type__in=permisos_obj, 
+        test_type__in=tests_obj
+    ).values('month', 'school_section__driving_school__name').annotate(valor=Sum(metrica_param))
 
-    for autoescuela in autoescuelas_obj:
-        sections = DrivingSchoolSection.objects.filter(driving_school=autoescuela)
-        result = Test.objects.filter(school_section__in=sections, year=year, permission_type__in=permisos_obj, test_type__in = tests_obj).values('month', 'year').annotate(valor=Sum(metrica_param))
-        
-        for row in range(0, len(result)):
-            if autoescuela.name not in y_labels: y_labels.append(autoescuela.name)
-            if final_result[row] == None:
-                final_result[row] = {
-                    "month": result[row]["month"],
-                    "year": result[row]["year"],
-                    autoescuela.name : result[row]["valor"]
-                }
-            else:
-                final_result[row] = {
-                    **final_result[row],
-                    autoescuela.name : result[row]["valor"],
-                }
+    # Convert the query results to a pandas DataFrame
+    df = pd.DataFrame(list(tests))
+
+    # Ensure ordering and grouping
+    df.sort_values(by=['month'], inplace=True)
     
-    final_result = [x for x in final_result if x is not None]
+    # Pivot the DataFrame to have driving schools as columns, months as rows
+    pivot_df = df.pivot_table(index='month', columns='school_section__driving_school__name', values='valor', fill_value=0).reset_index()
+
+    # Convert the pivoted DataFrame back to a dictionary format for the response
+    final_result = pivot_df.to_dict("records")
+    y_labels = pivot_df.columns.tolist()
+    y_labels.remove('month')  # Remove the month column from the labels
 
     return Response({
         "info": {
@@ -57,6 +62,7 @@ def graph1(request):
         },
         "records": final_result
     })
+
 
 @api_view()
 @permission_classes([IsAuthenticated])
