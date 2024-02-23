@@ -7,10 +7,9 @@ interface Props {
     filtersValue : any,
     filters : React.ReactNode,
     children : React.ReactNode
-    title: string
 }
 
-function BaseChart(props: Props) {
+function BaseForm(props: Props) {
 
     const [insideFilters, setInsideFilters] = useState({})
 	const [timer, setTimer] = useState<any>(null);
@@ -29,8 +28,7 @@ function BaseChart(props: Props) {
 
 
     return (
-        <Box bgColor='white' p='5' borderRadius='3xl'>
-            <Text fontSize='lg' fontWeight='semibold'>{props.title}</Text>
+        <>
             {
                 props.filters && 
                 <Formik validateOnBlur={true} validateOnChange={true} validate={handle} initialValues={props.filtersValue ?? {}} onSubmit={() => {}}>
@@ -44,9 +42,8 @@ function BaseChart(props: Props) {
                 props.children
             }
             </Box>
-        </Box>
-        
+        </>
     )
 }
 
-export default BaseChart
+export default BaseForm

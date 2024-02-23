@@ -19,7 +19,7 @@ export class ApiService<Type, ErrorType, PaginatedType>{
     public get useRetrieve() {
         return (id: number, config?: configurations) =>
           useQuery<Type, AxiosError<ErrorType>>([...this.queryKeys, 'retrieve', id], async () => {
-              const response = await this.client.get<Type>(`${this.url}${id}`);
+              const response = await this.client.get<Type>(`${this.url}${id}/`);
               return response.data;
           }, 
           {
@@ -34,8 +34,9 @@ export class ApiService<Type, ErrorType, PaginatedType>{
             return response.data;
         },
         {
-            ...this.config as any,
-            ...config as any
+          retry: 0,
+          refetchOnReconnect: false,
+          refetchOnWindowFocus: false
         }
        )
     }

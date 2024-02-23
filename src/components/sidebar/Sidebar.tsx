@@ -49,8 +49,8 @@ function Sidebar() {
                 </Box>
                 <Box gap={6} display='flex' flexDir='column'>
                     <HeaderLink icon={BiHome} to='/'>General</HeaderLink>
-                    <HeaderLink icon={BiWallet} to='/permissions'>Permisos</HeaderLink>
                     <HeaderLink icon={BiStore} to='/sections'>Secciones</HeaderLink>
+                    <HeaderLink icon={BiWallet} to='/permissions'>Permisos</HeaderLink>
                 </Box>
             </Box>
         </Box>

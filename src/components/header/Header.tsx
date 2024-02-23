@@ -6,13 +6,26 @@ import useLogout from '../../api/auth/useLogout';
 import FormikInput from '../forms/FormikInput';
 import { Formik } from 'formik';
 import { Link, useLocation } from 'react-router-dom';
+import { DrivingSchoolService } from '../../api/resources/driving/schools';
+
+function HeaderDrivingSchool({drivingSchoolId} : {drivingSchoolId : number}){
+
+    const drivingSchool = DrivingSchoolService.useRetrieve(drivingSchoolId);
+    return (
+            <MenuButton _hover={{bgColor: "gray.50", }} p='1' borderRadius="500rem">
+                <Flex alignItems='center' gap='5'>
+                    <Flex w='40px' h='40px' borderRadius='full' bgColor='gray.100' alignItems='center' justifyContent='center'>
+                        <Icon fontSize='xl' color='gray.600' as={IoStorefront}></Icon>
+                    </Flex>
+                    <Text fontWeight='semibold'>{drivingSchool.data?.name}</Text>
+                    <Icon as={IoChevronDown} color='gray.400'></Icon>
+                </Flex>
+            </MenuButton>)
+}
 
 function Header() {
 
-    const {data, isLoading} = useProfile({onSuccess:  () => {
-        
-        }
-    });
+    const {data, isLoading} = useProfile();
     const {mutate} = useLogout()
 
 
@@ -21,15 +34,11 @@ function Header() {
             <Flex borderRadius='2xl' bgColor='white' p='3' display='flex' alignItems='center' justifyContent='space-between' px='8'>
                 <Flex gap={4} >
                     <Menu >
-                        <MenuButton _hover={{bgColor: "gray.50", }} p='1' borderRadius="500rem">
-                            <Flex alignItems='center' gap='5'>
-                                <Flex w='40px' h='40px' borderRadius='full' bgColor='gray.100' alignItems='center' justifyContent='center'>
-                                    <Icon fontSize='xl' color='gray.600' as={IoStorefront}></Icon>
-                                </Flex>
-                                <Text fontWeight='semibold'>Autoescuelas ECO</Text>
-                                <Icon as={IoChevronDown} color='gray.400'></Icon>
-                            </Flex>
-                        </MenuButton>
+                        <>
+                        {
+                            data?.driving_school && <HeaderDrivingSchool drivingSchoolId={data.driving_school}/>
+                        }
+                        </>
 
                         <MenuList>
                             <MenuItem color='red.500' onClick={() => mutate()}>Log Out</MenuItem>
