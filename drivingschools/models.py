@@ -11,6 +11,10 @@ class DrivingSchoolSection(models.Model):
     driving_school = models.ForeignKey(DrivingSchool, on_delete=models.CASCADE)
     code = models.IntegerField()
 
+    @property
+    def name(self):
+            return '{} {}'.format(self.code, self.driving_school.name)
+
     def __str__(self):
         return "{} {}".format(self.driving_school, self.code)
     

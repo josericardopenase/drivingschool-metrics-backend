@@ -12,6 +12,14 @@ class DrivingPermissionSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 class DrivingSchoolSectionSerializer(serializers.ModelSerializer):
+    name = serializers.SerializerMethodField('name')
+
     class Meta:
         model = DrivingSchoolSection
-        fields = "__all__"
+        fields = ("name", "code", "driving_school", "id")
+    
+    def name(self, obj):
+        return obj.name
+
+    
+    

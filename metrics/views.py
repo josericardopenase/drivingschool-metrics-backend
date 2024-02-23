@@ -109,37 +109,59 @@ def graph2(request):
 @api_view()
 @permission_classes([IsAuthenticated])
 def graph3(request):
+    metrica_param = request.query_params.get('metrica', "num_presentados")
+    year_param = request.query_params.get('year', "2023")
+    section_param = request.query_params.get('section', "")
+    sections = section_param.split(',') if section_param else []
 
-    filters = [
-        #DateFilterField(),
-        DrivingSchoolFilterField(),
-        #MetricFilterField(), # nº aprobados, nºaptos o nºno aptos
-        PermissionFilterField(), 
-        ProvinceFilterField(),
-        TestCenterFilterField()]
+    permiso_param = request.query_params.get('permission', "")
+    permisos = permiso_param.split(',') if permiso_param else []
 
-    query_filter = QueryFilter(filters, request.query_params)
-    query_filter.validate_params()
-    filter_params = query_filter.combine_filters()
-    print(filter_params)
+    test_type_param = request.query_params.get('test_type', "")
+    test_types = test_type_param.split(',') if test_type_param else []
 
-    final_result =  []
+    # Filtrar por secciones específicas, si se proporcionan
+    sections_obj = DrivingSchoolSection.objects.filter(id__in=sections) if sections else DrivingSchoolSection.objects.all()
 
-    for tipo_examen in TestType.objects.all():
-        filter_params['test_type'] = tipo_examen
-        result = Test.objects.filter(**filter_params).values('test_type').annotate(
-            num_presentados=Sum('num_presentados'),
-            num_aptos=Sum('num_aptos'))
-        
-        for row in result:
-            final_result.append({
-                "num_presentados": row["num_presentados"],
-                "num_aptos": row["num_aptos"],
-                "num_no_aptos": row["num_presentados"] - row["num_aptos"],
-                "tipo examen" : row["test_type"]
-            })
-    
-    return Response(final_result)
+    # Filtrar por permisos específicos, si se proporcionan
+    permisos_obj = DrivingPermission.objects.filter(id__in=permisos) if permisos else DrivingPermission.objects.all()
+
+    # Filtrar por tipos de examen específicos, si se proporcionan
+    test_types_obj = TestType.objects.filter(id__in=test_types) if test_types else TestType.objects.all()
+
+    df_list = []
+
+    for section in sections_obj:
+        tests = Test.objects.filter(
+            school_section=section, 
+            year=year_param,
+            permission_type__in=permisos_obj,
+            test_type__in=test_types_obj
+        ).values('month', 'year', 'school_section__driving_school__name', 'school_section__code').annotate(valor=Sum(metrica_param))
+
+        if tests:
+            df_section = pd.DataFrame(list(tests))
+            df_section['label'] = f"{section.driving_school.name} - {section.code} {year_param}"
+            df_list.append(df_section)
+
+    if df_list:
+        df = pd.concat(df_list, ignore_index=True)
+        pivot_df = df.pivot_table(index='month', columns='label', values='valor', fill_value=0).reset_index()
+        pivot_df.sort_values('month', inplace=True)
+        final_result = pivot_df.to_dict("records")
+        y_labels = pivot_df.columns.tolist()
+        y_labels.remove('month')
+    else:
+        final_result = []
+        y_labels = []
+
+    return Response({
+        "info": {
+            "x_label": "month",
+            "y_labels": y_labels
+        },
+        "records": final_result
+    })
 
 @api_view()
 @permission_classes([IsAuthenticated])
