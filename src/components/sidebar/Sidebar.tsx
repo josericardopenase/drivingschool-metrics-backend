@@ -1,5 +1,5 @@
 import { Box, Icon, Text, Image } from '@chakra-ui/react'
-import { BiHome, BiWallet, BiStore  } from 'react-icons/bi'
+import { BiHome, BiWallet, BiStore, BiCar  } from 'react-icons/bi'
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom';
 import logo from '../../assets/logopositive.png'
@@ -49,6 +49,7 @@ function Sidebar() {
                 </Box>
                 <Box gap={6} display='flex' flexDir='column'>
                     <HeaderLink icon={BiHome} to='/'>General</HeaderLink>
+                    <HeaderLink icon={BiCar} to='/driving_school'>Autoescuelas</HeaderLink>
                     <HeaderLink icon={BiStore} to='/sections'>Secciones</HeaderLink>
                     <HeaderLink icon={BiWallet} to='/permissions'>Permisos</HeaderLink>
                 </Box>

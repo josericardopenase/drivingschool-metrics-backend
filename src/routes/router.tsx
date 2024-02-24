@@ -7,6 +7,7 @@ import App from "../App";
 import AppContainer from "../pages/app";
 import Permissions from "../pages/app/Permissions";
 import Sections from "../pages/app/Sections";
+import Autoescuelas from "../pages/app/Autoescuelas";
 
 const router = createBrowserRouter([
     {
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
             {
               path: "/sections",
               element: <Sections></Sections>
+            },
+            {
+              path: "/driving_school",
+              element: <Autoescuelas></Autoescuelas>
             }
           ]
         }

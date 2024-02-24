@@ -8,21 +8,18 @@ import MorePresentedsDrivingSchool from '../../../components/charts/MorePresente
 
 interface Props {}
 
-function Sections(props: Props) {
+function Autoescuelas(props: Props) {
 
     const profile = useProfile()
     const sections = DrivingSchoolSectionsService.useList({driving_school__id : profile.data?.driving_school})
 
     return (
         <>
-            <Text fontSize='3xl' fontWeight='semibold' mb='3'>Autoescuelas</Text>
+            <Text fontSize='3xl' fontWeight='semibold' mb='3'>Permisos</Text>
             <SimpleGrid mt='10'>
-                {
-                    sections.data && <Chart3 sections={sections.data?.results.map(x=> x.id) ?? []}/>
-
-                }
+                <MorePresentedsDrivingSchool></MorePresentedsDrivingSchool>
             </SimpleGrid>
         </>
     )
 }
-export default Sections
+export default Autoescuelas
