@@ -14,7 +14,7 @@ class DrivingSchoolSection(models.Model):
 
     @property
     def name(self):
-            return '{} {}'.format(self.code, self.driving_school.name)
+            return '{} {} {}'.format(self.code, self.driving_school.name, self.zone)
 
     def __str__(self):
         return "{} {}".format(self.driving_school, self.code)
