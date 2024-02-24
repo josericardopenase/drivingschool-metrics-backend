@@ -10,6 +10,7 @@ class DrivingSchool(models.Model):
 class DrivingSchoolSection(models.Model):
     driving_school = models.ForeignKey(DrivingSchool, on_delete=models.CASCADE)
     code = models.IntegerField()
+    zone = models.TextField(blank=True)
 
     @property
     def name(self):
