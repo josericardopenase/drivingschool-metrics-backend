@@ -31,7 +31,6 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '0.0.0.0', 'hidden-basin-07379-f12c22
 # Application definition
 
 INSTALLED_APPS = [
-    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
