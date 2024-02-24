@@ -163,6 +163,35 @@ def graph3(request):
         "records": final_result
     })
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def autoescuelas_con_mas_presentados(request):
+    metrica_param = request.query_params.get('metrica', "num_presentados")
+    year = request.query_params.get('year', "2024")
+
+    # Realizar la consulta para obtener el total de 'num_presentados' por autoescuela
+    schools_totals = Test.objects.filter(year=year)\
+        .values('school_section__driving_school__name')\
+        .annotate(total_presentados=Sum(metrica_param))\
+        .order_by('-total_presentados')
+
+    # Preparar los datos para la respuesta
+    data = []
+    for item in schools_totals:
+        data.append({
+            'autoescuela': item['school_section__driving_school__name'],
+            'total_presentados': item['total_presentados']
+        })
+
+    # Construir la respuesta
+    response = {
+        'year': year,
+        'metrica': metrica_param,
+        'records': data
+    }
+
+    return Response(response)
+
 @api_view()
 @permission_classes([IsAuthenticated])
 def graph4(request):
