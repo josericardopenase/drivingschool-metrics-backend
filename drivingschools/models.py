@@ -17,7 +17,7 @@ class DrivingSchoolSection(models.Model):
             return '{} {} {}'.format(self.code, self.driving_school.name, self.zone)
 
     def __str__(self):
-        return "{} {}".format(self.driving_school, self.code)
+        return "{} {} {}".format(self.driving_school, self.code, self.zone)
     
 class DrivingPermission(models.Model):
     name = models.CharField(max_length=255)
