@@ -89,6 +89,9 @@ django-cors-headers==4.2.0 ; python_version >= "3.11" and python_version < "4.0"
 django-filter==23.2 ; python_version >= "3.11" and python_version < "4.0" \
     --hash=sha256:2fe15f78108475eda525692813205fa6f9e8c1caf1ae65daa5862d403c6dbf00 \
     --hash=sha256:d12d8e0fc6d3eb26641e553e5d53b191eb8cec611427d4bdce0becb1f7c172b5
+django-jazzmin==2.6.0 ; python_version >= "3.11" and python_version < "4.0" \
+    --hash=sha256:5bb07055cf19183030724f976904fd8b6337559727959340a43832fab0531812 \
+    --hash=sha256:fb554c2d564649c65243b13385121fdbdda58521f49544f9d7cb9c414a4908d4
 django-queryable-properties==1.8.4 ; python_version >= "3.11" and python_version < "4.0" \
     --hash=sha256:4c2399847f5dd0a3eedabfc91865a0847aa58fc6cd80555151363943891ff4cd \
     --hash=sha256:ed2aac9168ecce664dd3c2a65cfb6fc9fd2e3aa9b2acc3a4d75a948a67b719d3
