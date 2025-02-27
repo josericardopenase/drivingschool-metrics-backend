@@ -1,11 +1,9 @@
-from django.db import models
 from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import AbstractUser, BaseUserManager, PermissionsMixin
 from django.db import models
-from django.utils import timezone
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -28,10 +26,12 @@ class CustomUserManager(BaseUserManager):
 
         return self.create_user(email, password, **extra_fields)
 
+
 class User(AbstractUser):
     email = models.EmailField(unique=True)
-    driving_school = models.ForeignKey("drivingschools.DrivingSchool", on_delete=models.CASCADE, null=True, blank=True)
-
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
+    username = models.CharField(null=True, blank=True, max_length=255)
     objects = CustomUserManager()
     def __str__(self):
         return self.email

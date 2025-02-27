@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   web:
     build: .
@@ -9,7 +9,12 @@ services:
       - "8000:8000"
     depends_on:
       - db
-
+    environment:
+      DB_NAME: yourdbname
+      DB_USER: yourdbuser
+      DB_PASSWORD: yourdbpassword
+      DB_HOST: db
+      DB_PORT: 5432
   db:
     image: postgres:13
     environment:

@@ -3828,7 +3828,7 @@ XRegExp.match = function(str, regex, scope) {
  *         <a href="http://www.google.com/">Google</a>';
  * XRegExp.matchChain(html, [
  *   {regex: /<a href="([^"]+)">/i, backref: 1},
- *   {regex: XRegExp('(?i)^https?://(?<domain>[^/?#]+)'), backref: 'domain'}
+ *   {regex: XRegExp('(?i)^https?://(?<models>[^/?#]+)'), backref: 'models'}
  * ]);
  * // -> ['xregexp.com', 'www.google.com']
  */
